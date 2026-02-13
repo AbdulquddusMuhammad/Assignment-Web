@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DocVault — Document Storage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+    <title>Assignment Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <style>
       *,
       *::before,
@@ -15,633 +15,192 @@
       }
 
       :root {
-        --bg: #0d0d0f;
-        --surface: #141416;
-        --card: #1a1a1e;
-        --border: #2a2a30;
-        --accent: #e8ff47;
-        --accent2: #47ffbb;
-        --text: #f0f0f0;
-        --muted: #666670;
-        --danger: #ff5b5b;
-        --radius: 14px;
-      }
-
-      html,
-      body {
-        height: 100%;
-        background: var(--bg);
-        color: var(--text);
-        font-family: "DM Mono", monospace;
+        --ink: #1a1a2e;
+        --paper: #f5f0e8;
+        --accent: #c8472b;
+        --accent-light: #e8d5d0;
+        --muted: #8a8070;
+        --border: #d8d0c0;
+        --card-bg: #fffdf8;
       }
 
       body {
+        background-color: var(--paper);
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        background-image: radial-gradient(ellipse 80% 40% at 20% -10%, rgba(232, 255, 71, 0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 110%, rgba(71, 255, 187, 0.05) 0%, transparent 60%);
-      }
-
-      /* ── Header ── */
-      header {
-        padding: 28px 40px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--border);
-      }
-      .logo {
-        font-family: "Syne", sans-serif;
-        font-weight: 800;
-        font-size: 1.3rem;
-        letter-spacing: -0.5px;
-      }
-      .logo span {
-        color: var(--accent);
-      }
-      .badge {
-        font-size: 0.65rem;
-        background: var(--border);
-        border: 1px solid var(--border);
-        color: var(--muted);
-        padding: 4px 10px;
-        border-radius: 100px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-      }
-
-      /* ── Main layout ── */
-      main {
-        flex: 1;
-        max-width: 820px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 48px 24px 80px;
-      }
-
-      h1 {
-        font-family: "Syne", sans-serif;
-        font-weight: 800;
-        font-size: clamp(2rem, 5vw, 3rem);
-        line-height: 1.1;
-        letter-spacing: -1px;
-        margin-bottom: 8px;
-      }
-      h1 em {
-        color: var(--accent);
-        font-style: normal;
-      }
-      .subtitle {
-        color: var(--muted);
-        font-size: 0.82rem;
-        margin-bottom: 48px;
-      }
-
-      /* ── Drop Zone ── */
-      .drop-zone {
-        position: relative;
-        border: 1.5px dashed var(--border);
-        border-radius: var(--radius);
-        padding: 56px 40px;
-        text-align: center;
-        cursor: pointer;
-        transition: border-color 0.25s, background 0.25s;
-        background: var(--card);
-        overflow: hidden;
-      }
-      .drop-zone::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(232, 255, 71, 0.04) 0%, transparent 70%);
-        pointer-events: none;
-      }
-      .drop-zone.drag-over {
-        border-color: var(--accent);
-        background: rgba(232, 255, 71, 0.04);
-      }
-      .drop-zone:hover {
-        border-color: #444;
-      }
-
-      .drop-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
-        background: rgba(232, 255, 71, 0.1);
-        border: 1px solid rgba(232, 255, 71, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 18px;
-        font-size: 1.4rem;
-        transition: transform 0.2s;
-      }
-      .drop-zone:hover .drop-icon {
-        transform: translateY(-2px);
+        padding: 2rem;
+        background-image: radial-gradient(ellipse at 20% 20%, rgba(200, 71, 43, 0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(26, 26, 46, 0.04) 0%, transparent 60%);
       }
 
-      .drop-title {
-        font-family: "Syne", sans-serif;
-        font-weight: 700;
-        font-size: 1.05rem;
-        margin-bottom: 6px;
-      }
-      .drop-sub {
-        color: var(--muted);
-        font-size: 0.77rem;
-        line-height: 1.6;
-      }
-      .drop-sub strong {
-        color: var(--accent);
-        font-weight: 500;
-        cursor: pointer;
-      }
-      .drop-sub strong:hover {
-        text-decoration: underline;
+      .container {
+        max-width: 560px;
+        width: 100%;
+        animation: fadeUp 0.6s ease forwards;
+        opacity: 0;
+        transform: translateY(20px);
       }
 
-      #fileInput {
-        display: none;
-      }
-
-      /* ── Upload progress bar ── */
-      .progress-wrap {
-        display: none;
-        margin-top: 18px;
-        background: var(--border);
-        border-radius: 100px;
-        height: 4px;
-        overflow: hidden;
-      }
-      .progress-bar {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        border-radius: 100px;
-        transition: width 0.3s ease;
-      }
-
-      /* ── Stats row ── */
-      .stats {
-        display: flex;
-        gap: 1px;
-        background: var(--border);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-        margin: 28px 0;
-      }
-      .stat {
-        flex: 1;
-        background: var(--card);
-        padding: 16px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .stat-val {
-        font-family: "Syne", sans-serif;
-        font-weight: 700;
-        font-size: 1.4rem;
-        color: var(--accent);
-      }
-      .stat-label {
-        font-size: 0.7rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      /* ── Section header ── */
-      .section-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 14px;
-      }
-      .section-title {
-        font-family: "Syne", sans-serif;
-        font-weight: 700;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-      }
-      .clear-btn {
-        font-family: "DM Mono", monospace;
-        font-size: 0.7rem;
-        color: var(--danger);
-        background: none;
-        border: 1px solid rgba(255, 91, 91, 0.25);
-        padding: 4px 12px;
-        border-radius: 100px;
-        cursor: pointer;
-        transition: background 0.2s;
-        display: none;
-      }
-      .clear-btn:hover {
-        background: rgba(255, 91, 91, 0.1);
-      }
-
-      /* ── File list ── */
-      #fileList {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .file-card {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 18px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        animation: slideIn 0.3s ease forwards;
-        transition: border-color 0.2s, transform 0.15s;
-      }
-      .file-card:hover {
-        border-color: #383840;
-        transform: translateX(2px);
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
+      @keyframes fadeUp {
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
 
-      .file-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
+      .eyebrow {
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.75rem;
+      }
+
+      .heading {
+        font-family: "DM Serif Display", serif;
+        font-size: 2.4rem;
+        line-height: 1.15;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+      }
+
+      .heading em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .subtitle {
+        font-size: 0.875rem;
+        color: var(--muted);
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.75rem;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        flex-shrink: 0;
+        gap: 1.25rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 12px rgba(26, 26, 46, 0.06), 0 1px 3px rgba(26, 26, 46, 0.04);
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+      }
+
+      .card:hover {
+        box-shadow: 0 6px 24px rgba(26, 26, 46, 0.1), 0 2px 6px rgba(26, 26, 46, 0.06);
+        transform: translateY(-1px);
       }
 
       .file-info {
         flex: 1;
         min-width: 0;
       }
+
       .file-name {
-        font-family: "Syne", sans-serif;
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-family: "DM Serif Display", serif;
+        font-size: 1rem;
+        color: var(--ink);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-bottom: 3px;
+        margin-bottom: 0.2rem;
       }
+
       .file-meta {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         color: var(--muted);
+        letter-spacing: 0.03em;
       }
 
-      .file-actions {
-        display: flex;
-        gap: 8px;
+      .download-btn {
         flex-shrink: 0;
-      }
-
-      .btn-dl,
-      .btn-del {
-        font-family: "DM Mono", monospace;
-        font-size: 0.72rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        padding: 7px 14px;
-        transition: opacity 0.2s, transform 0.15s;
-      }
-      .btn-dl {
-        background: var(--accent);
-        color: #0d0d0f;
-        font-weight: 500;
-      }
-      .btn-dl:hover {
-        opacity: 0.85;
-        transform: translateY(-1px);
-      }
-
-      .btn-del {
-        background: rgba(255, 91, 91, 0.12);
-        color: var(--danger);
-        border: 1px solid rgba(255, 91, 91, 0.2);
-      }
-      .btn-del:hover {
-        background: rgba(255, 91, 91, 0.2);
-      }
-
-      /* ── Empty state ── */
-      .empty {
-        text-align: center;
-        padding: 48px 20px;
-        color: var(--muted);
-        border: 1px dashed var(--border);
-        border-radius: var(--radius);
-        font-size: 0.8rem;
-        line-height: 1.8;
-      }
-      .empty-icon {
-        font-size: 2.2rem;
-        margin-bottom: 10px;
-        opacity: 0.4;
-      }
-
-      /* ── Toast ── */
-      .toast {
-        position: fixed;
-        bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%) translateY(80px);
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 100px;
-        padding: 10px 22px;
-        font-size: 0.78rem;
-        color: var(--text);
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
-        opacity: 0;
-        z-index: 999;
-        pointer-events: none;
-      }
-      .toast.show {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-      }
-      .toast-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        flex-shrink: 0;
+        gap: 0.5rem;
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        padding: 0.65rem 1.2rem;
+        border-radius: 8px;
+        transition: background 0.2s ease, transform 0.15s ease;
       }
 
-      /* ── Scrollbar ── */
-      ::-webkit-scrollbar {
-        width: 6px;
+      .download-btn:hover {
+        background: var(--accent);
+        transform: scale(1.03);
       }
-      ::-webkit-scrollbar-track {
-        background: transparent;
+
+      .footer-note {
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 1.5rem;
+        letter-spacing: 0.02em;
       }
-      ::-webkit-scrollbar-thumb {
-        background: var(--border);
-        border-radius: 10px;
+
+      .divider {
+        width: 40px;
+        height: 2px;
+        background: var(--accent);
+        margin-bottom: 1.5rem;
+        border-radius: 2px;
       }
     </style>
   </head>
   <body>
-    <header>
-      <div class="logo">Doc<span>Vault</span></div>
-      <div class="badge">Local Storage</div>
-    </header>
+    <div class="container">
+      <p class="eyebrow">Course Document</p>
+      <h1 class="heading">Your <em>Assignment</em><br />Is Ready</h1>
+      <div class="divider"></div>
+      <p class="subtitle">The document below is available for download. Click the button to save it to your device.</p>
 
-    <main>
-      <h1>Store. Access. <em>Download.</em></h1>
-      <p class="subtitle">// upload your documents — they persist in your browser session</p>
+      <div id="file-list"></div>
 
-      <!-- Drop Zone -->
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-icon">📁</div>
-        <div class="drop-title">Drop files here</div>
-        <div class="drop-sub">
-          Drag & drop any file, or <strong id="browseBtn">browse to upload</strong><br />
-          Supports PDF, DOCX, XLSX, images, and more
+      <script>
+        const files = [
+          {
+            name: "Assignment 21-201CRP-096",
+            path: "./Assignment 21-201CRP-096.docx",
+            type: "Word Document",
+            ext: ".docx",
+          },
+          {
+            path: "./Alabi Emmanuel.docx",
+            name: "Alabi Emmanuel",
+            type: "Word Document",
+            ext: ".docx",
+          },
+          // { name: "...", path: "./...", type: "...", ext: "..." },
+        ];
+
+        document.getElementById("file-list").innerHTML = files
+          .map(
+            (file) => `
+        <div class="card">
+          <div class="file-info">
+            <div class="file-name">${file.name}</div>
+            <div class="file-meta">${file.type} &nbsp;·&nbsp; ${file.ext}</div>
+          </div>
+          <a href="${file.path}" download class="download-btn">Download</a>
         </div>
-        <input type="file" id="fileInput" multiple />
-      </div>
-      <div class="progress-wrap" id="progressWrap">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
+      `
+          )
+          .join("");
+      </script>
 
-      <!-- Stats -->
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-val" id="statCount">0</div>
-          <div class="stat-label">Files</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="statSize">0 KB</div>
-          <div class="stat-label">Total Size</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="statTypes">—</div>
-          <div class="stat-label">Types</div>
-        </div>
-      </div>
-
-      <!-- File List -->
-      <div class="section-header">
-        <div class="section-title">STORED DOCUMENTS</div>
-        <button class="clear-btn" id="clearBtn">✕ Clear All</button>
-      </div>
-      <div id="fileList"></div>
-    </main>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
-      <div class="toast-dot"></div>
-      <span id="toastMsg">File uploaded!</span>
+      <p class="footer-note">File will be saved to your default downloads folder.</p>
     </div>
-
-    <script>
-      // ── State ──
-      const files = []; // { name, size, type, date, dataUrl }
-
-      // ── DOM ──
-      const dropZone = document.getElementById("dropZone");
-      const fileInput = document.getElementById("fileInput");
-      const browseBtn = document.getElementById("browseBtn");
-      const fileList = document.getElementById("fileList");
-      const clearBtn = document.getElementById("clearBtn");
-      const progressWrap = document.getElementById("progressWrap");
-      const progressBar = document.getElementById("progressBar");
-      const statCount = document.getElementById("statCount");
-      const statSize = document.getElementById("statSize");
-      const statTypes = document.getElementById("statTypes");
-      const toast = document.getElementById("toast");
-      const toastMsg = document.getElementById("toastMsg");
-
-      // ── File type icon map ──
-      const typeIcon = (type, name) => {
-        const ext = name.split(".").pop().toLowerCase();
-        if (type.startsWith("image/")) return { icon: "🖼️", bg: "rgba(71,255,187,0.12)", border: "rgba(71,255,187,0.2)" };
-        if (type === "application/pdf" || ext === "pdf") return { icon: "📄", bg: "rgba(255,91,91,0.12)", border: "rgba(255,91,91,0.2)" };
-        if (ext === "docx" || ext === "doc") return { icon: "📝", bg: "rgba(100,160,255,0.12)", border: "rgba(100,160,255,0.2)" };
-        if (ext === "xlsx" || ext === "xls" || ext === "csv") return { icon: "📊", bg: "rgba(71,255,100,0.12)", border: "rgba(71,255,100,0.2)" };
-        if (ext === "zip" || ext === "rar" || ext === "7z") return { icon: "🗜️", bg: "rgba(200,150,255,0.12)", border: "rgba(200,150,255,0.2)" };
-        if (type.startsWith("video/")) return { icon: "🎬", bg: "rgba(255,200,71,0.12)", border: "rgba(255,200,71,0.2)" };
-        if (type.startsWith("audio/")) return { icon: "🎵", bg: "rgba(255,120,200,0.12)", border: "rgba(255,120,200,0.2)" };
-        return { icon: "📎", bg: "rgba(232,255,71,0.1)", border: "rgba(232,255,71,0.15)" };
-      };
-
-      // ── Format size ──
-      const fmtSize = (bytes) => {
-        if (bytes < 1024) return bytes + " B";
-        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
-        return (bytes / 1048576).toFixed(2) + " MB";
-      };
-
-      // ── Show toast ──
-      let toastTimer;
-      const showToast = (msg) => {
-        toastMsg.textContent = msg;
-        toast.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
-      };
-
-      // ── Update stats ──
-      const updateStats = () => {
-        const total = files.reduce((s, f) => s + f.size, 0);
-        const types = [...new Set(files.map((f) => f.name.split(".").pop().toUpperCase()))];
-        statCount.textContent = files.length;
-        statSize.textContent = fmtSize(total);
-        statTypes.textContent = types.length ? types.slice(0, 3).join(", ") : "—";
-        clearBtn.style.display = files.length ? "inline-block" : "none";
-      };
-
-      // ── Render list ──
-      const render = () => {
-        if (!files.length) {
-          fileList.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">🗂️</div>
-          No documents uploaded yet.<br/>Drop a file above to get started.
-        </div>`;
-        } else {
-          fileList.innerHTML = files
-            .map((f, i) => {
-              const { icon, bg, border } = typeIcon(f.type, f.name);
-              return `
-          <div class="file-card" id="card-${i}">
-            <div class="file-icon" style="background:${bg};border:1px solid ${border}">${icon}</div>
-            <div class="file-info">
-              <div class="file-name" title="${f.name}">${f.name}</div>
-              <div class="file-meta">${fmtSize(f.size)} &nbsp;·&nbsp; ${f.date}</div>
-            </div>
-            <div class="file-actions">
-              <button class="btn-dl" onclick="downloadFile(${i})">↓ Download</button>
-              <button class="btn-del" onclick="deleteFile(${i})">✕</button>
-            </div>
-          </div>`;
-            })
-            .join("");
-        }
-        updateStats();
-      };
-
-      // ── Fake progress animation ──
-      const animateProgress = (callback) => {
-        progressWrap.style.display = "block";
-        progressBar.style.width = "0%";
-        let val = 0;
-        const tick = setInterval(() => {
-          val += Math.random() * 25;
-          if (val >= 90) {
-            val = 90;
-            clearInterval(tick);
-          }
-          progressBar.style.width = val + "%";
-        }, 80);
-        setTimeout(() => {
-          progressBar.style.width = "100%";
-          setTimeout(() => {
-            progressWrap.style.display = "none";
-            progressBar.style.width = "0%";
-            callback();
-          }, 400);
-        }, 600);
-      };
-
-      // ── Process selected files ──
-      const processFiles = (fileArr) => {
-        const arr = Array.from(fileArr);
-        if (!arr.length) return;
-        animateProgress(() => {
-          let loaded = 0;
-          arr.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              files.unshift({
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                date: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
-                dataUrl: e.target.result,
-              });
-              loaded++;
-              if (loaded === arr.length) {
-                render();
-                showToast(arr.length === 1 ? `"${arr[0].name}" uploaded` : `${arr.length} files uploaded`);
-              }
-            };
-            reader.readAsDataURL(file);
-          });
-        });
-      };
-
-      // ── Download ──
-      window.downloadFile = (i) => {
-        const f = files[i];
-        const a = document.createElement("a");
-        a.href = f.dataUrl;
-        a.download = f.name;
-        a.click();
-        showToast(`Downloading "${f.name}"`);
-      };
-
-      // ── Delete ──
-      window.deleteFile = (i) => {
-        const name = files[i].name;
-        files.splice(i, 1);
-        render();
-        showToast(`"${name}" removed`);
-      };
-
-      // ── Clear all ──
-      clearBtn.addEventListener("click", () => {
-        files.length = 0;
-        render();
-        showToast("All files cleared");
-      });
-
-      // ── Drag & drop ──
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("drag-over");
-      });
-      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("drag-over");
-        processFiles(e.dataTransfer.files);
-      });
-
-      // ── Click to browse ──
-      dropZone.addEventListener("click", () => fileInput.click());
-      browseBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        fileInput.click();
-      });
-      fileInput.addEventListener("change", () => {
-        processFiles(fileInput.files);
-        fileInput.value = "";
-      });
-
-      // ── Init ──
-      render();
-    </script>
   </body>
 </html>
